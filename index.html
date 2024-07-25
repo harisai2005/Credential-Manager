@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credential Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button class="save-button" onclick="viewSavedCredentials()">My Credentials</button>
+    <div class="container">
+        <h2>Enter Your Credentials</h2>
+        <input type="text" id="website" placeholder="Website/App Name" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button class="submit-button" onclick="saveCredentials()">Submit</button>
+    </div>
+
+    <script>
+        function saveCredentials() {
+            const website = document.getElementById('website').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (website && username && password) {
+                const credentials = {
+                    website: website,
+                    username: username,
+                    password: password
+                };
+
+                let storedCredentials = localStorage.getItem('credentials');
+                if (storedCredentials) {
+                    storedCredentials = JSON.parse(storedCredentials);
+                } else {
+                    storedCredentials = [];
+                }
+                storedCredentials.push(credentials);
+                localStorage.setItem('credentials', JSON.stringify(storedCredentials));
+                alert('Credentials saved successfully');
+                document.getElementById('website').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            } else {
+                alert('Please fill out all fields');
+            }
+        }
+
+        function viewSavedCredentials() {
+            window.location.href = 'mycredentials.html';
+        }
+    </script>
+</body>
+</html>
